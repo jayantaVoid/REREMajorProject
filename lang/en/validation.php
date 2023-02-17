@@ -166,6 +166,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'phone' =>[
+            'min' => 'Phone no must be valid and should be of 10 charecters',
+        ]
     ],
 
     /*
@@ -179,6 +182,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+
+    ],
 
 ];
