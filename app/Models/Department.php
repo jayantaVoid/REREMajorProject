@@ -26,13 +26,21 @@ class Department extends Model
         $this->attributes['name'] = ucwords($value);
     }
 
-    public function setDeptAttribute($value)
+    public function getDeptIdAttribute($value)
     {
-        $this->attributes['dept_id'] = 'PRk' . ($value);
+        $this->attributes['dept_no'] = 'PRk' . ($value);
     }
     // hasMany relationship with department and user
-    public function user()
+    // public function user()
+    // {
+    //     return $this->belongsToMany(user::class, 'user_departments');
+    // }
+    public function semester()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(Semester::class,'department_semesters');
+    }
+    public function subject()
+    {
+        return $this->belongsToMany(Subject::class,'department_subjects');
     }
 }

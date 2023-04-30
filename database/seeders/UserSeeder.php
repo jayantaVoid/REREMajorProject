@@ -8,6 +8,7 @@ use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -24,7 +25,8 @@ class UserSeeder extends Seeder
         foreach ($roleArray as  $value) {
             Role::create([
                 'role_name'=>$value,
-                'status'=> true
+                'status'=> true,
+                'slug'=>Str::slug($value),
             ]);
         }
         // for ($i = 1; $i <= 10; $i++) {
@@ -48,7 +50,7 @@ class UserSeeder extends Seeder
         $isUserCreated = User::create([
             'name' => 'Subhajit Saha',
             'email' => 'ssaha@gmail.com',
-            'password' => bcrypt('12345678'),
+            'password' => bcrypt('Test@1234'),
         ]);
         if($isUserCreated){
             $isProfileCreated = $isUserCreated->profile()->create([

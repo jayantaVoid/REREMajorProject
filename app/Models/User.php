@@ -71,10 +71,10 @@ class User extends Authenticatable implements MustVerifyEmail
     // {
     //     return $this->hasOne(Department::class, 'id','department_id');
     // }
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
+    // public function department()
+    // {
+    //     return $this->belongsTo(Department::class);
+    // }
     // ManytoMany relationship with user and role
     public function roles()
     {
@@ -88,6 +88,10 @@ class User extends Authenticatable implements MustVerifyEmail
             }
         }
         return false;
+    }
+    public function semesters()
+    {
+        return $this->belongsToMany(Semester::class, 'semester_users');
     }
 
 

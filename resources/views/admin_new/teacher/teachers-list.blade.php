@@ -56,7 +56,7 @@
                                             class="feather-grid"></i></a>
                                     <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-download"></i>
                                         Download</a>
-                                    <a href="add-teacher.html" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+                                    <a href="{{ route('admin.teacher-add') }}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                                 </div>
                             </div>
                         </div>

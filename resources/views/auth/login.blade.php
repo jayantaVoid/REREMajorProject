@@ -34,6 +34,15 @@
                         <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}
                         </p>
                     @endif
+                    @if (Session::has('status'))
+                        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('status') }}
+                        </p>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                 </div>
                 <div class="loginbox">
                     <div class="login-left">
@@ -49,10 +58,11 @@
                             <form action="{{ route('login') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label>Username <span class="login-danger">*</span></label>
+                                    <label>Email <span class="login-danger">*</span></label>
                                     <input id="email" name="email"
                                         class="form-control @error('email') is-invalid @enderror" type="text"
                                         value="{{ old('email') }}">
+                                    <span class="error-msg"></span>
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -64,6 +74,7 @@
                                     <input id="password" name="password"
                                         class="form-control pass-input @error('password') is-invalid @enderror"
                                         type="password">
+                                    <span id="error-password"></span>
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -73,7 +84,7 @@
                                 <div class="forgotpass">
                                     <div class="remember-me">
                                         <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Remember me
-                                            <input type="checkbox" name="radio"
+                                            <input type="checkbox" name="remember"
                                                 {{ old('remember') ? 'checked' : '' }}>
                                             <span class="checkmark"></span>
                                         </label>
@@ -84,6 +95,7 @@
                                         </a>
                                     @endif
                                 </div>
+
                                 <div class="form-group">
                                     <button class="btn btn-primary btn-block" type="submit">Login</button>
                                 </div>
@@ -144,3 +156,4 @@
         }
     </script>
 @endpush --}}
+<script src="{{ asset('assets/js/form-validation.js') }}"></script>

@@ -80,7 +80,7 @@
                                     <div class="col-12 col-sm-4">
                                         <div class="form-group local-forms">
                                             <label>Qualification <span class="login-danger">*</span></label>
-                                            <input class="form-control" type="text" value="{{ $teacher-> }}">
+                                            <input class="form-control" type="text" value="{{ $teacher->profile->qualification }}">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-4">

@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Auth::routes(['verify' => true]);
-Route::namespace ('Admin')->controller(AdminController::class)->middleware('auth')->as('admin.')->group(function () {
+Auth::routes(['verify' => true]);;
+Route::namespace ('Admin')->controller(AdminController::class)->middleware(['auth','checkBlocked'])->as('admin.')->group(function () {
     Route::get('/home', 'index')->name('home');
     Route::get('/students', 'studentList')->name('student');
     Route::get('/add-student', 'addStudent')->name('addstudent');
@@ -40,6 +40,11 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware('auth
     Route::get('/department-list','listDepartment')->name('department');
     Route::get('/add-department','addDepartment')->name('department-add');
     Route::post('/add-department','storeDepartment')->name('add-department');
+    // Semester route call
+    // departments route call
+    Route::get('/semester-list','listSemester')->name('semester');
+    Route::get('/add-semester','addSemester')->name('semester-add');
+    Route::post('/add-semester','storeSemester')->name('add-semester');
     //teachers route call
     Route::get('/teacher','teachersList')->name('teacher');
     Route::get('/add-teacher','addTeacher')->name('teacher-add');
@@ -49,5 +54,15 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware('auth
     Route::post('/status','changeStatus')->name('status');
     Route::get('/teacher-profile/{id}','showTeachersProfile')->name('teacher-profile');
     Route::get('/edit/teacher/{id}','editTeachersData')->name('edit-teacher');
+    Route::get('/block-student/{id}','blockStudent')->name('block-student');
+
+    // Subjects route call
+    Route::get('/add-subject','addSubject')->name('subject-add');
+    Route::post('/add-subject','storeSubject')->name('subject-store');
+    Route::get('/subject-list','subjectList')->name('subject-list');
+    Route::post('/attach-semester','attachSemester')->name('attach');
 });
-Route::get('/user/home', [AdminController::class, 'userDashboard'])->name('userdashboard');
+// Route::get('/user/home', [AdminController::class, 'userDashboard'])->name('userdashboard');
+// Route::namespace ('Admin')->controller(AdminController::class)->middleware(['auth','checkBlocked'])->as('admin.')->group(function () {
+//     Route::get('/home', 'studentDashboard')->name('home');
+// });

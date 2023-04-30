@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use Auth;
+use Exception;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\Subject;
+use App\Models\Semester;
 use App\Models\Department;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class AdminController extends Controller
@@ -18,10 +23,11 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         if (auth()->user()->hasRole('admin')) {
+            $totalDepartment = Department::all()->count();
             $studentUser = User::whereHas('roles', function ($query) {
                 $query->where('role_name', '=', 'student');
             })->get()->count();
-            return view('admin_new.dashboard', compact('studentUser'));
+            return view('admin_new.dashboard', compact(['studentUser', 'totalDepartment']));
         } elseif (auth()->user()->hasRole('student')) {
             return view('student-dashboard');
         } else {
@@ -37,8 +43,9 @@ class AdminController extends Controller
     }
     public function addStudent()
     {
+        $semesters = Semester::all();
         $departments = Department::all();
-        return view('admin_new.add-student', compact('departments'));
+        return view('admin_new.add-student', compact('departments', 'semesters'));
     }
     public function storeStudent(Request $request)
     {
@@ -46,9 +53,14 @@ class AdminController extends Controller
             [
                 'name' => 'required|min:5',
                 'department_id' => 'required',
+                'semester_id' => 'required',
                 'email' => 'required|unique:users|email',
                 'phone' => 'required|numeric|min:1000000000|max:9999999999|unique:profiles',
-                'password' => 'required|min:8|max:12',
+                'password' => [
+                    'required',
+                    'min:8',
+                    'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%@]).*$/'
+                ],
                 'address' => 'required',
                 'gender' => 'required',
                 'dob' => 'required|date|before:4 years ago',
@@ -80,7 +92,10 @@ class AdminController extends Controller
             ]);
         }
         $isStudentRole = Role::where('role_name', 'Student')->get();
-        $isUserCreated = $isUserCreated->roles()->attach($isStudentRole);
+        $isSemester = Semester::where('id', $request->semester_id)->get();
+        $isUserCreated->roles()->attach($isStudentRole);
+        $isUserCreated->semesters()->attach($isSemester);
+
         return redirect('students');
     }
     public function showGrid()
@@ -112,7 +127,7 @@ class AdminController extends Controller
         $request->validate(
             [
                 'name' => 'required|min:5',
-                'department' => 'required',
+                // 'department' => 'required',
                 'email' => 'required|email',
                 'phone' => 'required|numeric|min:1000000000|max:9999999999',
                 'address' => 'required',
@@ -130,7 +145,7 @@ class AdminController extends Controller
             $isUserUpdated = User::where('uuid', $request->id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'department_id' => $request->department,
+                // 'department_id' => $request->department,
             ]);
 
             if ($isUserUpdated) {
@@ -149,7 +164,7 @@ class AdminController extends Controller
             $isUserUpdated = User::where('uuid', $request->id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'department_id' => $request->department,
+                // 'department_id' => $request->department,
             ]);
 
             if ($isUserUpdated) {
@@ -170,6 +185,17 @@ class AdminController extends Controller
         $user = User::where('uuid', $id);
         $user->delete();
         return redirect('students')->with('message', 'Student Record Moved to Trash!!!');
+    }
+    public function blockStudent($id)
+    {
+        $user = User::where('uuid', $id)->first();
+        if ($user->is_block == 0) {
+            $user->is_block = 1;
+        } else {
+            $user->is_block = 0;
+        }
+        $user->update();
+        return redirect('students')->with('status', 'Student data updated');
     }
     public function searchData(Request $request)
     {
@@ -228,7 +254,8 @@ class AdminController extends Controller
     public function listDepartment()
     {
         $departments = Department::all();
-        return view('admin_new.department-list', compact('departments'));
+        $semesters = Semester::all();
+        return view('admin_new.department-list', compact('departments', 'semesters'));
     }
     public function storeDepartment(Request $request)
     {
@@ -241,11 +268,10 @@ class AdminController extends Controller
             'name' => $request->dept_name,
             'slug' => str::slug($request->dept_name),
         ]);
-        // $isUserCreated = $isUserCreated->roles()->attach($isStudentRole);
         if ($department) {
             return redirect('department-list')->with("status", "Department added successfully!");
         } else {
-            return back()->with("status", "Department Not Added!");
+            return redirect()->back()->with("status", "Department Not Added!");
         }
     }
     public function addTeacher()
@@ -295,7 +321,7 @@ class AdminController extends Controller
                 'city' => $request->city,
                 'state' => $request->state,
                 'zip_code' => $request->zip_code,
-                'country' =>$request->country,
+                'country' => $request->country,
                 'isGeneral' => '1',
                 'isHod' => '0',
                 'qualification' => $request->qualification,
@@ -351,8 +377,70 @@ class AdminController extends Controller
     public function editTeachersData($uuid)
     {
         $departments = Department::all();
-        $teachers = User::where('uuid',$uuid)->get();
+        $teachers = User::where('uuid', $uuid)->get();
         // dd($teachers);
-        return view('admin_new.teacher.edit-teachers-data',compact('teachers','departments'));
+        return view('admin_new.teacher.edit-teachers-data', compact('teachers', 'departments'));
+    }
+    public function addSubject()
+    {
+        $departmentList = Department::all();
+        $semesterlist = Semester::all();
+        return view('admin_new.add-subject', compact('departmentList', 'semesterlist'));
+    }
+    public function storeSubject(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'department' => 'required',
+            'semester' => 'required',
+        ]);
+        // dd($request->all());
+        $isSubjectCreated = Subject::create([
+            'name' => $request->name,
+            'slug' => str::slug($request->name),
+        ]);
+        $isDepartment = Department::where('id', $request->department)->get();
+        $isSemester = Semester::where('id', $request->semester)->get();
+        $isSubjectCreated->department()->attach($isDepartment);
+        $isSubjectCreated->semester()->attach($isSemester);
+        return redirect('subject-list')->with("status", "Subject added successfully!");
+    }
+    public function subjectList()
+    {
+        $listSubject = Subject::all();
+        return view('admin_new.subjects', compact('listSubject'));
+    }
+    public function attachSemester(Request $request)
+    {
+        $department = Department::find($request->dept_id);
+        $semesters = Semester::whereIn('id', $request->semesters)->get();
+        $isSemesterAttached = $department->semester()->attach($semesters);
+        return response()->json([
+            'status' => true,
+            'message' => 'Semester added successfully',
+        ]);
+    }
+    public function addSemester()
+    {
+        return view('admin_new.add-semester');
+    }
+    public function listSemester()
+    {
+        $semesters = Semester::all();
+        return view('admin_new.semester-list', compact('semesters'));
+    }
+    public function storeSemester(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $semester = Semester::create([
+            'name' => $request->name,
+        ]);
+        if ($semester) {
+            return redirect('semester-list')->with('status', 'semester Added Successfully');
+        } else {
+            return redirect()->back();
+        }
     }
 }

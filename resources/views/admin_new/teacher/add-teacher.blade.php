@@ -38,13 +38,12 @@
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>Department <span class="login-danger">*</span></label>
+                                        <label>Department<span class="login-danger">*</span></label>
                                         <select class="form-control select @error('department_id') is-invalid @enderror"
                                             name="department_id">
                                             <option value="">Select Department</option>
                                             @foreach ($departments as $department)
-                                                <option value="{{ $department->id }}">{{ $department->name }}
-                                                </option>
+                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('department_id')

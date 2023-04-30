@@ -53,7 +53,7 @@
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>Department</h6>
-                                <h3>30+</h3>
+                                <h3>{{ $totalDepartment }}</h3>
                             </div>
                             <div class="db-icon">
                                 <img src="assets/img/icons/dash-icon-03.svg" alt="Dashboard Icon">

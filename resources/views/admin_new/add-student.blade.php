@@ -39,16 +39,32 @@
                                 </div>
                                 <div class="col-12 col-sm-4">
                                     <div class="form-group local-forms">
-                                        <label>Department <span class="login-danger">*</span></label>
+                                        <label>Department<span class="login-danger">*</span></label>
                                         <select class="form-control select @error('department_id') is-invalid @enderror"
                                             name="department_id">
                                             <option value="">Select Department</option>
                                             @foreach ($departments as $department)
-                                                <option value="{{ $department->id }}">{{ $department->name }}
-                                                </option>
+                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('department_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="form-group local-forms">
+                                        <label>Semester<span class="login-danger">*</span></label>
+                                        <select class="form-control select @error('semester_id') is-invalid  @enderror"
+                                            name="semester_id">
+                                            <option value="">Select Semester</option>
+                                            @foreach ($semesters as $semester)
+                                                <option value="{{ $semester->id }}">{{ $semester->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('semester_id')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
