@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Auth::routes(['verify' => true]);;
+Auth::routes(['verify' => true]);
 Route::namespace ('Admin')->controller(AdminController::class)->middleware(['auth','checkBlocked'])->as('admin.')->group(function () {
     Route::get('/home', 'index')->name('home');
     Route::get('/students', 'studentList')->name('student');
@@ -61,6 +61,11 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware(['aut
     Route::post('/add-subject','storeSubject')->name('subject-store');
     Route::get('/subject-list','subjectList')->name('subject-list');
     Route::post('/attach-semester','attachSemester')->name('attach');
+
+    //exam route call
+    Route::get('/exam-list','examList')->name('exam-list');
+    Route::get('/add-question','examAdd')->name('add-question');
+    route::post('/store-question','storeQuestion')->name('store-question');
 });
 // Route::get('/user/home', [AdminController::class, 'userDashboard'])->name('userdashboard');
 // Route::namespace ('Admin')->controller(AdminController::class)->middleware(['auth','checkBlocked'])->as('admin.')->group(function () {

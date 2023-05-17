@@ -6,8 +6,10 @@ use Auth;
 use Exception;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Answer;
 use App\Models\Profile;
 use App\Models\Subject;
+use App\Models\Question;
 use App\Models\Semester;
 use App\Models\Department;
 use Illuminate\Support\Str;
@@ -107,7 +109,7 @@ class AdminController extends Controller
     }
     public function updateStatus(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         $user = User::findOrFail($request->user_id);
         $user->status = $request->status;
         $user->update();
@@ -127,7 +129,6 @@ class AdminController extends Controller
         $request->validate(
             [
                 'name' => 'required|min:5',
-                // 'department' => 'required',
                 'email' => 'required|email',
                 'phone' => 'required|numeric|min:1000000000|max:9999999999',
                 'address' => 'required',
@@ -442,5 +443,41 @@ class AdminController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+    public function examList()
+    {
+        return view('admin_new.exam-list');
+    }
+    public function examAdd()
+    {
+        return view('admin_new.add-exam');
+    }
+    public function storeQuestion(Request $request){
+        //return $request->all();
+        $request->validate([
+                'question' => 'required',
+                'inputs.*' => 'required',
+                'answer' => 'required',
+            ],
+            [
+                'inputs.*.option' => 'Option is required !',
+            ]
+        );
+        $question=Question::create([
+            'name' => $request->question
+        ]);
+        //return $question->id;
+        $answerIds=[];
+        foreach($request->inputs as $answer){
+            $answerIds[]=Answer::create([
+                'option' => $answer,
+                'question_id' => $question->id
+            ]);
+        }
+        //return $answerIds;
+        $question->update([
+            'answer_id'=>$answerIds[$request->answer]->id
+        ]);
+        return redirect('add-question')->with('status','Question Added Successfully');
     }
 }

@@ -15,7 +15,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="submenu {{ request()->routeIs('admin.subject-list', 'admin.subject-add') ? 'active' : '' }}">
+                    {{-- <li class="submenu {{ request()->routeIs('admin.subject-list', 'admin.subject-add') ? 'active' : '' }}">
                         <a href=""><i class="fas fa-book-reader"></i> <span> Subjects</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
@@ -25,8 +25,8 @@
                                     class="{{ request()->routeIs('admin.subject-add') ? 'active' : '' }}">Subject Add</a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="submenu">
+                    </li> --}}
+                    {{-- <li class="submenu">
                         <a href="#"><i class="fas fa-clipboard"></i> <span> Invoices</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
@@ -37,7 +37,7 @@
                             <li><a href="view-invoice.html">Invoices Details</a></li>
                             <li><a href="invoices-settings.html">Invoices Settings</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                     <li class="submenu {{ request()->routeIs('admin.student', 'admin.addstudent') ? 'active' : '' }}">
                         <a href="#"><i class="fas fa-graduation-cap"></i> <span> Students</span> <span
                                 class="menu-arrow"></span></a>
@@ -63,7 +63,19 @@
                             </li>
                         </ul>
                     </li>
-                    <li
+                    <li class="submenu {{ request()->routeIs('admin.exam-list') ? 'active' : '' }}">
+                        <a href="#"><i class="fas fa-clipboard-list"></i> <span> Exam</span> <span
+                            class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{{ route('admin.exam-list') }}"
+                                class="{{ request()->routeIs('admin.exam-list') ? 'active' : '' }}"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- <li class="active">
+                        <a href="exam.html"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a>
+                    </li> --}}
+                    {{-- <li
                         class="submenu {{ request()->routeIs('admin.department', 'admin.department-add') ? 'active' : '' }}">
                         <a href="#"><i class="fas fa-building"></i> <span> Departments</span> <span
                                 class="menu-arrow"></span></a>
@@ -75,8 +87,8 @@
                                     class="{{ request()->routeIs('admin.department-add') ? 'active' : '' }}">Department
                                     Add</a></li>
                         </ul>
-                    </li>
-                    <li
+                    </li> --}}
+                    {{-- <li
                         class="submenu {{ request()->routeIs('admin.semester', 'admin.semester-add') ? 'active' : '' }}">
                         <a href="#"><i class="fas fa-building"></i> <span> Semesters</span> <span
                                 class="menu-arrow"></span></a>
@@ -88,8 +100,8 @@
                                     class="{{ request()->routeIs('admin.semester-add') ? 'active' : '' }}">Semester
                                     Add</a></li>
                         </ul>
-                    </li>
-                    <li class="submenu {{ request()->routeIs('admin.subject-list', 'admin.subject-add') ? 'active' : '' }}">
+                    </li> --}}
+                    {{-- <li class="submenu {{ request()->routeIs('admin.subject-list', 'admin.subject-add') ? 'active' : '' }}">
                         <a href=""><i class="fas fa-book-reader"></i> <span> Subjects</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
@@ -99,7 +111,7 @@
                                     class="{{ request()->routeIs('admin.subject-add') ? 'active' : '' }}">Subject Add</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 @elseif (auth()->user()->roles()->first()->role_name == 'Student')
                     <li class="submenu active">
                         <a href="#"><i class="feather-grid"></i> <span> Dashboard</span> <span

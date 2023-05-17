@@ -69,66 +69,66 @@
                                         <th>#</th>
                                         <th style="width: 100px">Name</th>
                                         <th>Email</th>
-                                        {{-- <th>Department</th> --}}
                                         <th>Phone</th>
                                         <th>Gender</th>
                                         <th>Dob</th>
                                         <th>Blood Group</th>
                                         <th>Religion</th>
-                                        {{-- <th>status</th> --}}
+                                        <th>Status</th>
                                         <th>Block/Unblock</th>
                                         <th class="text-end">Action</th>
                                     </tr>
                                 </thead>
-                                @php
-                                    $i = 1;
-                                @endphp
                                 <tbody id="showdata">
-                                    @foreach ($students as $student)
-                                        <tr>
+                                    @if (count($students) > 0)
+                                        @foreach ($students as $key => $student)
+                                            <tr>
 
-                                            <td>{{ $i++ }}</td>
-                                            <td><img class="avatar-img rounded-circle"
-                                                    src="{{ asset('assets/img/' . $student->profile->picture) }}"
-                                                    height="30" width="30">
-                                                {{ $student->name }}</td>
-                                            <td>{{ $student->email }}</td>
-                                            {{-- <td>{{ $student->department->name }}</td> --}}
-                                            <td>{{ $student->profile->phone }}</td>
-                                            <td>{{ $student->profile->gender }}</td>
-                                            <td>{{ $student->profile->dob }}</td>
-                                            <td>{{ $student->profile->blood_group }}</td>
-                                            <td>{{ $student->profile->religion }}</td>
-                                            {{-- <td>
-                                                <input type="checkbox" data-id="{{ $student->id }}" name="status"
-                                                    class="js-switch" {{ $student->status == 1 ? 'checked' : '' }}>
-                                            </td> --}}
-                                            <td>
-                                                @if ($student->is_block == 0)
-                                                    <a href="{{ route('admin.block-student', ['id' => $student->uuid]) }}"
-                                                        class="badge bg-warning text-dark">Unblock
-                                                    </a>
-                                                @else
-                                                    <a href="{{ route('admin.block-student', ['id' => $student->uuid]) }}"
-                                                        class="badge bg-danger text-white">Block
-                                                    </a>
-                                                @endif
-                                            </td>
-                                            <td class="text-end">
-                                                <div class="actions ">
-                                                    <a href="{{ route('admin.editstudent', ['id' => $student->uuid]) }}"
-                                                        class="btn btn-sm bg-danger-light">
-                                                        <i class="feather-edit"></i>
-                                                    </a>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td><img class="avatar-img rounded-circle"
+                                                        src="{{ asset('assets/img/' . $student->profile->picture) }}"
+                                                        height="30" width="30">
+                                                    {{ $student->name }}</td>
+                                                <td>{{ $student->email }}</td>
+                                                {{-- <td>{{ $student->department->name }}</td> --}}
+                                                <td>{{ $student->profile->phone }}</td>
+                                                <td>{{ $student->profile->gender }}</td>
+                                                <td>{{ $student->profile->dob }}</td>
+                                                <td>{{ $student->profile->blood_group }}</td>
+                                                <td>{{ $student->profile->religion }}</td>
+                                                <td>
+                                                    <input type="checkbox" data-id="{{ $student->id }}" name="status"
+                                                        class="js-switch" {{ $student->status == 1 ? 'checked' : '' }}>
+                                                </td>
+                                                <td>
+                                                    @if ($student->is_block == 0)
+                                                        <a href="{{ route('admin.block-student', ['id' => $student->uuid]) }}"
+                                                            class="badge bg-warning text-dark">Unblock
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('admin.block-student', ['id' => $student->uuid]) }}"
+                                                            class="badge bg-danger text-white">Block
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                                <td class="text-end">
+                                                    <div class="actions ">
+                                                        <a href="{{ route('admin.editstudent', ['id' => $student->uuid]) }}"
+                                                            class="btn btn-sm bg-danger-light">
+                                                            <i class="feather-edit"></i>
+                                                        </a>
 
-                                                    <a href="{{ route('admin.deletestudent', ['id' => $student->uuid]) }}"
-                                                        class="btn btn-sm bg-danger-light">
-                                                        <i class="feather-trash-2"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                        <a href="{{ route('admin.deletestudent', ['id' => $student->uuid]) }}"
+                                                            class="btn btn-sm bg-danger-light">
+                                                            <i class="feather-trash-2"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <div colspan="10">No Data Found</div>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>

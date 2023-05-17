@@ -15,7 +15,7 @@
     </div>
     @include('admin_new.layouts.partials._footer')
     <!-- Scripts -->
-    @yield('scripts')
+    @stack('script')
 </body>
 
 </html>
