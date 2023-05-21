@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->tinyInteger('marks')->nullable(0);
-            $table->foreignId('exam_id')->references('id')->on('exams')->onDelete('cascade');
-            $table->foreignId('answer_id')->references('id')->on('answers')->onDelete('cascade');
+            $table->smallInteger('full_marks')->default(0);
+            $table->date('date')->nullable();
+            $table->string('start_time')->nullable();
+            $table->string('end_time')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('exams');
     }
 };

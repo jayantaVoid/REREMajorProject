@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('department_id')->nullable()->constrained();
             $table->boolean('status')->default(true);
             $table->boolean('is_block')->default(false);
+            $table->tinyInteger('intelligent_level')->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
