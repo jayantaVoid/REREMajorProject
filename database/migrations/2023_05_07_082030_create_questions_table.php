@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->tinyInteger('marks')->nullable(0);
+            $table->tinyInteger('marks')->nullable();
             $table->foreignId('exam_id')->references('id')->on('exams')->onDelete('cascade');
             $table->foreignId('answer_id')->references('id')->on('answers')->onDelete('cascade');
             $table->timestamps();

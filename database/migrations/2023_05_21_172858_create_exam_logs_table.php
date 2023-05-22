@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
-            $table->tinyInteger('is_attended')->default(0);
+            $table->tinyInteger('is_attented')->default(0);
             $table->timestamps();
         });
     }
