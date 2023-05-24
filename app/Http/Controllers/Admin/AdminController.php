@@ -18,10 +18,13 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
+use App\Traits\HelperTrait;
+
 
 
 class AdminController extends Controller
 {
+    use HelperTrait ;
     public function index(Request $request)
     {
         if (auth()->user()->hasRole('admin')) {
@@ -36,6 +39,66 @@ class AdminController extends Controller
             return view('admin_new.teacher-dashboard');
         }
     }
+
+    //Subject Tags
+    public function addSubject()
+    {
+        return view('admin_new.add-subject');
+    }
+    public function storeSubject(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'subject_image' => 'required',
+        ]);
+        $file=$this->uploadFile($request->subject_image, $folder = "subject_images");
+        $isSubjectCreated = Subject::create([
+            'name' => $request->name,
+            'slug' => str::slug($request->name),
+            'image' => $file['path'],
+        ]);
+        return redirect('subject-list')->with("status", "Subject added successfully!");
+    }
+    public function subjectList()
+    {
+        $listSubject = Subject::all();
+        //return $listSubject;
+        return view('admin_new.subjects', compact('listSubject'));
+    }
+    public function editSubject($uuid)
+    {
+        $subject = Subject::where('uuid',$uuid)->first();
+        //return $listSubject;
+        return view('admin_new.edit-subject', compact('subject'));
+    }
+    public function updateSubject(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $subject=Subject::where('uuid',$request->uuid)->first();
+        $isSubjectUpdated = $subject->update([
+            'name' => $request->name,
+            'slug' => str::slug($request->name),
+        ]);
+        if($request->has('subject_image'))
+        {
+            //deleting existing file
+            if(is_file(public_path($subject->image)))
+            {
+                unlink(public_path($subject->image)) ;
+            }
+            //upload image
+            $file=$this->uploadFile($request->subject_image, $folder = "subject_images");
+            //update table
+            $subject->update([
+                'image' => $file['path'],
+            ]);
+        }
+        return redirect('subject-list')->with("status", "Subject Updated successfully!");
+    }
+
+    //Students
     public function studentList()
     {
         $students = User::whereHas('roles', function ($query) {
@@ -247,101 +310,9 @@ class AdminController extends Controller
     }
 
 
-    //Department call
-    public function addDepartment()
-    {
-        return view('admin_new.add-department');
-    }
-    public function listDepartment()
-    {
-        $departments = Department::all();
-        $semesters = Semester::all();
-        return view('admin_new.department-list', compact('departments', 'semesters'));
-    }
-    public function storeDepartment(Request $request)
-    {
-        $request->validate([
-            'dept_no' => 'required|numeric',
-            'dept_name' => 'required',
-        ]);
-        $department = Department::create([
-            'dept_no' => $request->dept_no,
-            'name' => $request->dept_name,
-            'slug' => str::slug($request->dept_name),
-        ]);
-        if ($department) {
-            return redirect('department-list')->with("status", "Department added successfully!");
-        } else {
-            return redirect()->back()->with("status", "Department Not Added!");
-        }
-    }
-    public function addTeacher()
-    {
-        $departments = Department::all();
-        return view('admin_new.teacher.add-teacher', compact('departments'));
-    }
-    public function storeTeacher(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|min:5',
-            'department_id' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required|numeric|min:1000000000|max:9999999999',
-            'address' => 'required',
-            'gender' => 'required|in:Male,Female,Others',
-            'dob' => 'required|date|before:4 years ago',
-            'joining_date' => 'required',
-            'qualification' => 'required',
-            'experience' => 'required',
-            'blood_group' => 'required|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
-            'image' => 'sometimes|image|mimes:jpg,png,jpeg,gif,svg',
-            'password' => 'required|min:8|max:12|confirmed',
-            'religion' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'zip_code' => 'required',
-            'country' => 'required',
-        ]);
-        $filename = time() . "myfile." . $request->file('image')->getClientOriginalExtension();
-        $request->file('image')->move(public_path('assets/img'), $filename);
-        $password = bcrypt($request->password);
-        $isUserCreated = User::create([
-            'name' => $request->name,
-            'department_id' => $request->department_id,
-            'email' => $request->email,
-            'password' => $password,
-        ]);
-        if ($isUserCreated) {
-            $isProfileCreated = $isUserCreated->profile()->create([
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'blood_group' => $request->blood_group,
-                'gender' => $request->gender,
-                'religion' => $request->religion,
-                'dob' => $request->dob,
-                'city' => $request->city,
-                'state' => $request->state,
-                'zip_code' => $request->zip_code,
-                'country' => $request->country,
-                'isGeneral' => '1',
-                'isHod' => '0',
-                'qualification' => $request->qualification,
-                'joining_date' => $request->joining_date,
-                'experience' => $request->experience,
-                'picture' => $filename
-            ]);
-        }
-        $isTeacherRole = Role::where('role_name', 'teacher')->get();
-        $isUserCreated = $isUserCreated->roles()->attach($isTeacherRole);
-        return redirect('teacher');
-    }
-    public function teachersList()
-    {
-        $teachers = User::whereHas('roles', function ($query) {
-            $query->where('role_name', '=', 'teacher');
-        })->get();
-        return view('admin_new.teacher.teachers-list', compact('teachers'));
-    }
+    
+    
+    
     public function isGeneral($id)
     {
         $teacher = User::where('uuid', $id)->first();
@@ -370,80 +341,7 @@ class AdminController extends Controller
             'message' => 'Teacher Status Updated !!'
         ]);
     }
-    public function showTeachersProfile($id)
-    {
-        $teachersData = User::where('uuid', $id)->get();
-        return view('admin_new.teacher.teacher-profile', compact('teachersData'));
-    }
-    public function editTeachersData($uuid)
-    {
-        $departments = Department::all();
-        $teachers = User::where('uuid', $uuid)->get();
-        // dd($teachers);
-        return view('admin_new.teacher.edit-teachers-data', compact('teachers', 'departments'));
-    }
-    public function addSubject()
-    {
-        $departmentList = Department::all();
-        $semesterlist = Semester::all();
-        return view('admin_new.add-subject', compact('departmentList', 'semesterlist'));
-    }
-    public function storeSubject(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'department' => 'required',
-            'semester' => 'required',
-        ]);
-        // dd($request->all());
-        $isSubjectCreated = Subject::create([
-            'name' => $request->name,
-            'slug' => str::slug($request->name),
-        ]);
-        $isDepartment = Department::where('id', $request->department)->get();
-        $isSemester = Semester::where('id', $request->semester)->get();
-        $isSubjectCreated->department()->attach($isDepartment);
-        $isSubjectCreated->semester()->attach($isSemester);
-        return redirect('subject-list')->with("status", "Subject added successfully!");
-    }
-    public function subjectList()
-    {
-        $listSubject = Subject::all();
-        return view('admin_new.subjects', compact('listSubject'));
-    }
-    public function attachSemester(Request $request)
-    {
-        $department = Department::find($request->dept_id);
-        $semesters = Semester::whereIn('id', $request->semesters)->get();
-        $isSemesterAttached = $department->semester()->attach($semesters);
-        return response()->json([
-            'status' => true,
-            'message' => 'Semester added successfully',
-        ]);
-    }
-    public function addSemester()
-    {
-        return view('admin_new.add-semester');
-    }
-    public function listSemester()
-    {
-        $semesters = Semester::all();
-        return view('admin_new.semester-list', compact('semesters'));
-    }
-    public function storeSemester(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-        ]);
-        $semester = Semester::create([
-            'name' => $request->name,
-        ]);
-        if ($semester) {
-            return redirect('semester-list')->with('status', 'semester Added Successfully');
-        } else {
-            return redirect()->back();
-        }
-    }
+    
     public function examList()
     {
         return view('admin_new.exam-list');

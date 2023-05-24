@@ -16,6 +16,7 @@
     @include('admin_new.layouts.partials._footer')
     <!-- Scripts -->
     @stack('script')
+    
 </body>
 
 </html>

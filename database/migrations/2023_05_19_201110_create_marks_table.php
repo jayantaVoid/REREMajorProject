@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('marks', function (Blueprint $table) {
             $table->id();
-            $table->foreign('exam_id')->references('id')->on('exam')->onDelete('cascade');
-            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('exam_id')->references('id')->on('exam')->onDelete('cascade');
+            $table->foreignId('student_id')->references('id')->on('users')->onDelete('cascade');
             $table->smallInteger('marks')->default(0);
             $table->timestamps();
         });

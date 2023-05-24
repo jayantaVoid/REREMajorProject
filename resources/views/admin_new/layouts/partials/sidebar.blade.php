@@ -38,28 +38,30 @@
                             <li><a href="invoices-settings.html">Invoices Settings</a></li>
                         </ul>
                     </li> --}}
-                    <li class="submenu {{ request()->routeIs('admin.student', 'admin.addstudent') ? 'active' : '' }}">
-                        <a href="#"><i class="fas fa-graduation-cap"></i> <span> Students</span> <span
+
+                    <!-- Subjects -->
+                    <li class="submenu {{ request()->routeIs('admin.subject-list', 'admin.subject-add') ? 'active' : '' }}">
+                        <a href="#"><i class="fas fa-graduation-cap"></i> <span> Subject Tags</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
-                            <li><a href="{{ route('admin.student') }}"
-                                    class="{{ request()->routeIs('admin.student') ? 'active' : '' }}">Student List</a>
+                            <li><a href="{{ route('admin.subject-list') }}"
+                                    class="{{ request()->routeIs('admin.subject-list') ? 'active' : '' }}">Subject Tag Lists</a>
                             </li>
-                            <li><a href="{{ route('admin.addstudent') }}"
-                                    class="{{ request()->routeIs('admin.addstudent') ? 'active' : '' }}">Student Add</a>
+                            <li><a href="{{ route('admin.subject-add') }}"
+                                    class="{{ request()->routeIs('admin.subject-add') ? 'active' : '' }}">Add Subject Tag</a>
                             </li>
                         </ul>
                     </li>
-                    <li class="submenu {{ request()->routeIs('admin.teacher', 'admin.teacher-add') ? 'active' : '' }}">
-                        <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span
+
+                    <li class="submenu {{ request()->routeIs('admin.student', 'admin.addstudent') ? 'active' : '' }}">
+                        <a href="#"><i class="fas fa-graduation-cap"></i> <span> Users</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
-                            <li><a href="{{ route('admin.teacher') }}"
-                                    class="{{ request()->routeIs('admin.teacher') ? 'active' : '' }}">Teacher List</a>
+                            <li><a href="{{ route('admin.student') }}"
+                                    class="{{ request()->routeIs('admin.student') ? 'active' : '' }}">Users List</a>
                             </li>
-                            <li><a href="{{ route('admin.teacher-add') }}"
-                                    class="{{ request()->routeIs('admin.teacher-add') ? 'active' : '' }}">Teacher
-                                    Add</a>
+                            <li><a href="{{ route('admin.addstudent') }}"
+                                    class="{{ request()->routeIs('admin.addstudent') ? 'active' : '' }}">Add User</a>
                             </li>
                         </ul>
                     </li>

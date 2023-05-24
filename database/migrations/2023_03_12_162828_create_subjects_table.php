@@ -18,6 +18,7 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->string('name');
             $table->string('slug')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

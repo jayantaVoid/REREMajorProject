@@ -5,10 +5,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Add Subject</h3>
+                    <h3 class="page-title">Edit Tag Subject</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="subjects.html">Subject</a></li>
-                        <li class="breadcrumb-item active">Add Subject</li>
+                        <li class="breadcrumb-item active">Edit Tag Subject</li>
                     </ul>
                 </div>
             </div>
@@ -18,8 +18,9 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.subject-store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('admin.update-subject') }}" enctype="multipart/form-data">
                             @csrf
+                            <input type="hidden" name="uuid" value="{{ $subject->uuid }}">
                             <div class="row">
                                 <div class="col-12">
                                     <h5 class="form-title"><span>Subject Tag Information</span></h5>
@@ -28,7 +29,7 @@
                                     <div class="form-group local-forms">
                                         <label>Subject Name <span class="login-danger">*</span></label>
                                         <input type="text" name="name"
-                                            class="form-control @error('name') is-invalid @enderror">
+                                            class="form-control @error('name') is-invalid @enderror" value="{{$subject->name}}">
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -58,7 +59,7 @@
                                 </div> -->
                                 <div class="col-12">
                                     <div class="student-submit">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
                             </div>

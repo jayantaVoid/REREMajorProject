@@ -36,6 +36,14 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware(['aut
     Route::get('restore/{id}','restoreData')->name('restore-data');
     Route::get('/profile/{id}','adminProfile')->name('profile');
     Route::post('/update-password','adminUpdatePassword')->name('update-password');
+
+    //Subject Tag Routes
+    Route::get('/add-subject','addSubject')->name('subject-add');
+    Route::post('/add-subject','storeSubject')->name('subject-store');
+    Route::get('/subject-list','subjectList')->name('subject-list');
+    Route::post('/attach-semester','attachSemester')->name('attach');
+    Route::get('/edit-subject/{id}', 'editSubject')->name('edit-subject');
+    Route::post('/update-student', 'updateSubject')->name('update-subject');
     // departments route call
     Route::get('/department-list','listDepartment')->name('department');
     Route::get('/add-department','addDepartment')->name('department-add');
@@ -56,11 +64,7 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware(['aut
     Route::get('/edit/teacher/{id}','editTeachersData')->name('edit-teacher');
     Route::get('/block-student/{id}','blockStudent')->name('block-student');
 
-    // Subjects route call
-    Route::get('/add-subject','addSubject')->name('subject-add');
-    Route::post('/add-subject','storeSubject')->name('subject-store');
-    Route::get('/subject-list','subjectList')->name('subject-list');
-    Route::post('/attach-semester','attachSemester')->name('attach');
+    
 
     //exam route call
     Route::get('/exam-list','examList')->name('exam-list');

@@ -20,15 +20,16 @@
                     <div class="row align-items-center">
                         <div class="col-auto profile-image">
                             <a href="#">
-                                <img class="rounded-circle" alt="User Image"
-                                    src="{{ asset('assets/img/' .auth()->user()->profile()->first()->picture) }}">
+                                
+                                    <img class="rounded-circle" alt="User Image"
+                                    src="#">
                             </a>
                         </div>
                         <div class="col ms-md-n2 profile-user-info">
                             <h4 class="user-name mb-0">{{ auth()->user()->name }}</h4>
                             <h6 class="text-muted">{{ auth()->user()->roles()->first()->role_name }}</h6>
                             <div class="user-Location"><i class="fas fa-map-marker-alt"></i>
-                                {{ auth()->user()->profile->address }}</div>
+                                address</div>
                         </div>
                     </div>
                 </div>
@@ -69,7 +70,7 @@
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Date of
                                                 Birth</p>
-                                            <p class="col-sm-9">{{ auth()->user()->profile->dob }}</p>
+                                            <p class="col-sm-9">dob</p>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Email ID</p>
@@ -77,11 +78,11 @@
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0 mb-sm-3">Mobile</p>
-                                            <p class="col-sm-9">{{ auth()->user()->profile->phone }}</p>
+                                            <p class="col-sm-9">phone</p>
                                         </div>
                                         <div class="row">
                                             <p class="col-sm-3 text-muted text-sm-end mb-0">Address</p>
-                                            <p class="col-sm-9 mb-0">{{ auth()->user()->profile->address }}</p>
+                                            <p class="col-sm-9 mb-0">address</p>
                                         </div>
 
                                     </div>

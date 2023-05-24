@@ -16,10 +16,8 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->smallInteger('full_marks')->default(0);
-            $table->date('date')->nullable();
-            $table->string('start_time')->nullable();
-            $table->string('end_time')->nullable();
+            $table->foreignId('subject_tag')->references('id')->on('subjects')->onDelete('cascade');;
+            $table->time('exam_time')->nullable();
             $table->timestamps();
         });
     }
