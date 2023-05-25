@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('exams', function (Blueprint $table) {
+        Schema::create('levels', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('name')->nullable();
-            $table->foreignId('subject_tag')->references('id')->on('subjects')->onDelete('cascade');;
-            $table->time('exam_time')->nullable();
+            $table->float('from',8,2)->nullable();
+            $table->float('to',8,2)->nullable();
+            $table->string('level')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('exams');
+        Schema::dropIfExists('levels');
     }
 };

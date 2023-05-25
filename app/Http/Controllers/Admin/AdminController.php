@@ -4,21 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use Auth;
 use Exception;
+use App\Models\Exam;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Level;
 use App\Models\Answer;
 use App\Models\Profile;
 use App\Models\Subject;
 use App\Models\Question;
 use App\Models\Semester;
 use App\Models\Department;
+use App\Traits\HelperTrait;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
-use App\Traits\HelperTrait;
 
 
 
@@ -96,6 +98,61 @@ class AdminController extends Controller
             ]);
         }
         return redirect('subject-list')->with("status", "Subject Updated successfully!");
+    }
+
+    //Levels
+    public function levels()
+    {
+        $levels = Level::all();
+        //return $listSubject;
+        return view('admin_new.levels', compact('levels'));
+    }
+    public function levelAdd()
+    {
+        return view('admin_new.add-level');
+    }
+    public function storeLevel(Request $request)
+    {
+        $request->validate([
+                'from' => 'required|numeric|min:0|max:100',
+                'to' => 'required|numeric|min:0|max:100|gt:from',
+                'level' => 'required',
+            ],
+            [
+                'to.gt' => "Feild To must be greater than From Feild"
+            ]
+        );
+        $isLevelCreated = Level::create([
+            'from' => $request->from,
+            'to' => $request->to,
+            'level' => $request->level,
+        ]);
+        return redirect('levels')->with("status", "Subject added successfully!");
+    }
+    public function editLevel($uuid)
+    {
+        $level = Level::where('uuid',$uuid)->first();
+        //return $listSubject;
+        return view('admin_new.edit-level', compact('level'));
+    }
+    public function updateLevel(Request $request)
+    {
+        $request->validate([
+                'from' => 'required|numeric|min:0|max:100',
+                'to' => 'required|numeric|min:0|max:100|gt:from',
+                'level' => 'required',
+            ],
+            [
+                'to.gt' => "Feild To must be greater than From Feild"
+            ]   
+        );
+        $level=Level::where('uuid',$request->uuid)->first();
+        $level->update([
+            'from' => $request->from,
+            'to' => $request->to,
+            'level' => $request->level,
+        ]);
+        return redirect()->route('admin.levels')->with("status", "Level Updated successfully!");
     }
 
     //Students
@@ -344,16 +401,83 @@ class AdminController extends Controller
     
     public function examList()
     {
-        return view('admin_new.exam-list');
+        $examLists=Exam::all();
+        return view('admin_new.exam-list')->with(['examLists'=>$examLists]);
     }
     public function examAdd()
     {
-        return view('admin_new.add-exam');
+        $subjectTags=Subject::all();
+        return view('admin_new.add-exam')->with(['subjectTags'=>$subjectTags]);
+    }
+    public function storeExam(Request $request){
+        $request->validate([
+                'subject_tag' => 'required',
+                'name' => 'required',
+                'hour' => 'required',
+                'minute' => 'required',
+                'second' => 'required',
+            ]
+        );
+        $exam=Exam::create([
+            'subject_tag' => $request->subject_tag,
+            'name' => $request->name,
+            'exam_time' => $request->hour.':'.$request->minute.':'.$request->second,
+        ]);
+        return redirect()->route('admin.exam-list');
+    }
+    public function editExam($uuid)
+    {
+        $exam = Exam::where('uuid',$uuid)->first();
+        $subjectTags=Subject::all();
+        $time=explode(":",$exam->exam_time);
+        //return $time[0] == 0;
+        return view('admin_new.edit-exam')->with([
+            'exam'=>$exam,
+            'subjectTags'=>$subjectTags,
+            'time' => $time,
+
+        ]);
+    }
+    public function updateExam(Request $request)
+    {
+        $request->validate([
+                'subject_tag' => 'required',
+                'name' => 'required',
+                'hour' => 'required',
+                'minute' => 'required',
+                'second' => 'required',
+            ]
+        );
+        $exam=Exam::where('uuid',$request->uuid)->first();
+        $exam->update([
+            'subject_tag' => $request->subject_tag,
+            'name' => $request->name,
+            'exam_time' => $request->hour.':'.$request->minute.':'.$request->second,
+        ]);
+        return redirect()->route('admin.exam-list');
+    }
+
+    //Question
+    public function questionList($exam_uuid){
+        $exam=Exam::where('uuid',$exam_uuid)->first();
+        $questions=Question::where('exam_id',$exam->id)->get();
+        // $options=Answer::where('question_id',)
+        //return $questions[1]->options;
+        return view('admin_new.question-list')->with([
+            'questions' => $questions,
+        ]);
+    }
+    public function questionAdd(){
+        $exams=Exam::all();
+        return view('admin_new.add-question')->with([
+            'exams' => $exams,
+        ]);
     }
     public function storeQuestion(Request $request){
         //return $request->all();
         $request->validate([
                 'question' => 'required',
+                'exam' => 'required',
                 'inputs.*' => 'required',
                 'answer' => 'required',
             ],
@@ -362,7 +486,8 @@ class AdminController extends Controller
             ]
         );
         $question=Question::create([
-            'name' => $request->question
+            'name' => $request->question,
+            'exam_id' => $request->exam,
         ]);
         //return $question->id;
         $answerIds=[];
@@ -376,6 +501,6 @@ class AdminController extends Controller
         $question->update([
             'answer_id'=>$answerIds[$request->answer]->id
         ]);
-        return redirect('add-question')->with('status','Question Added Successfully');
+        return redirect('exam-list')->with('status','Question Added Successfully');
     }
 }

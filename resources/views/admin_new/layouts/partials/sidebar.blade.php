@@ -11,7 +11,9 @@
                                 class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="{{ route('admin.home') }}"
-                                    class="{{ request()->routeIs('admin.home') ? 'active' : '' }}">Admin Dashboard</a>
+                                    class="{{ request()->routeIs('admin.home') ? 'active' : '' }}">
+                                    <i class="feather-grid"></i> <span>Admin Dashboard</span>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -41,14 +43,19 @@
 
                     <!-- Subjects -->
                     <li class="submenu {{ request()->routeIs('admin.subject-list', 'admin.subject-add') ? 'active' : '' }}">
-                        <a href="#"><i class="fas fa-graduation-cap"></i> <span> Subject Tags</span> <span
+                        <a href="#"><i class="fa fa-book"></i> <span> Subject Tags</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="{{ route('admin.subject-list') }}"
-                                    class="{{ request()->routeIs('admin.subject-list') ? 'active' : '' }}">Subject Tag Lists</a>
+                                    class="{{ request()->routeIs('admin.subject-list') ? 'active' : '' }}">
+                                    <i class="fa fa-book"></i> <span>Subject Tag Lists</span>
+                                </a>
                             </li>
                             <li><a href="{{ route('admin.subject-add') }}"
-                                    class="{{ request()->routeIs('admin.subject-add') ? 'active' : '' }}">Add Subject Tag</a>
+                                    class="{{ request()->routeIs('admin.subject-add') ? 'active' : '' }}">
+                                    <i class="fa fa-book"></i> <span>Add Subject Tag</span>
+
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -57,23 +64,50 @@
                         <a href="#"><i class="fas fa-graduation-cap"></i> <span> Users</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
-                            <li><a href="{{ route('admin.student') }}"
-                                    class="{{ request()->routeIs('admin.student') ? 'active' : '' }}">Users List</a>
+                            <li>
+                                <a href="{{ route('admin.student') }}"
+                                    class="{{ request()->routeIs('admin.student') ? 'active' : '' }}">
+                                    <i class="fas fa-graduation-cap"></i> <span>Users List</span>
+
+                                </a>
                             </li>
                             <li><a href="{{ route('admin.addstudent') }}"
-                                    class="{{ request()->routeIs('admin.addstudent') ? 'active' : '' }}">Add User</a>
+                                    class="{{ request()->routeIs('admin.addstudent') ? 'active' : '' }}">
+                                    <i class="fas fa-graduation-cap"></i> <span>Add User</span>
+                                </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="submenu {{ request()->routeIs('admin.exam-list') ? 'active' : '' }}">
+                    <li class="submenu {{ request()->routeIs('admin.exam-list','add-exam','add-question') ? 'active' : '' }}">
                         <a href="#"><i class="fas fa-clipboard-list"></i> <span> Exam</span> <span
                             class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="{{ route('admin.exam-list') }}"
                                 class="{{ request()->routeIs('admin.exam-list') ? 'active' : '' }}"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a>
                             </li>
+                            <li><a href="{{ route('admin.add-exam') }}"
+                                class="{{ request()->routeIs('admin.add-exam') ? 'active' : '' }}"><i class="fas fa-clipboard-list"></i> <span>Add Exam</span></a>
+                            </li>
+                            <li><a href="{{ route('admin.add-question') }}"
+                                class="{{ request()->routeIs('admin.add-question') ? 'active' : '' }}"><i class="fas fa-clipboard-list"></i> <span>Add Question</span></a>
+                            </li>
                         </ul>
                     </li>
+
+                    <!-- level -->
+                    <li class="submenu {{ request()->routeIs('admin.levels','admin.add-level') ? 'active' : '' }}">
+                        <a href="#"><i class="fa fa-trophy"></i> <span> Level</span> <span
+                            class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{{ route('admin.levels') }}"
+                                class="{{ request()->routeIs('admin.levels') ? 'active' : '' }}"><i class="fa fa-trophy"></i> <span>Levels</span></a>
+                            </li>
+                            <li><a href="{{ route('admin.add-level') }}"
+                                class="{{ request()->routeIs('admin.add-level') ? 'active' : '' }}"><i class="fa fa-trophy"></i> <span>Add Level</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
                     {{-- <li class="active">
                         <a href="exam.html"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a>
                     </li> --}}

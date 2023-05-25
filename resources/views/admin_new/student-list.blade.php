@@ -8,7 +8,7 @@
                         <h3 class="page-title">Students</h3>
                         <div class="alert alert-success alert-dismissible" role="alert" style="display: none;"></div>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="students.html">Student</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(null)">Student</a></li>
                             <li class="breadcrumb-item active">All Students</li>
                         </ul>
                     </div>

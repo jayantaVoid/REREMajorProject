@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('exam_logs', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->foreignId('student_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('exam_id')->references('id')->on('exams')->onDelete('cascade');
             $table->foreignId('question_id')->references('id')->on('questions')->onDelete('cascade');

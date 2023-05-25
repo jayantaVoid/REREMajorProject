@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Webpatser\Uuid\Uuid;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ExamLog extends Model
+class Level extends Model
 {
     use HasFactory;
     public static function boot()

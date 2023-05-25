@@ -5,10 +5,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Add Exam</h3>
+                    <h3 class="page-title">Edit Exam</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{route('admin.exam-list')}}">Exam</a></li>
-                        <li class="breadcrumb-item active">Add Exam</li>
+                        <li class="breadcrumb-item"><a href="exam.html">Exam</a></li>
+                        <li class="breadcrumb-item active">Edit Exam</li>
                     </ul>
                 </div>
             </div>
@@ -20,8 +20,9 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form method="post" action="{{ route('admin.store-exam') }}">
+                        <form method="post" action="{{ route('admin.update-exam') }}">
                             @csrf
+                            <input type="hidden" name="uuid" value="{{ $exam->uuid }}">
                             <div class="row">
                                 <div class="col-12">
                                     <h5 class="form-title"><span>Exam Information</span></h5>
@@ -33,7 +34,7 @@
                                         <select class="form-control select @error('subject_tag') is-invalid @enderror" name="subject_tag">
                                             <option value="">Choose Subject Tag</option>
                                             @foreach($subjectTags as $subjectTag)
-                                                <option value="{{$subjectTag->id}}">{{$subjectTag->name}}</option> 
+                                                <option value="{{$subjectTag->id}}" @if($exam->subject_tag == $subjectTag->id) {{"selected"}} @endif>{{$subjectTag->name}}</option> 
                                             @endforeach
                                         </select>
                                         @error('subject_tag')
@@ -49,7 +50,7 @@
                                     <div class="form-group">
                                         <label>Name</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                            placeholder="Enter exam name" name="name">
+                                            placeholder="Enter exam name" name="name"  value="{{$exam->name}}">
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -77,7 +78,7 @@
                                     <label>Hours</label>
                                     <select class="form-control select @error('hour') is-invalid @enderror" name="hour">
                                         @for($i=0;$i<=24;$i++)
-                                            <option value="{{$i}}">{{$i}}</option> 
+                                            <option value="{{$i}}" @if($time[0] == $i) {{"selected"}} @endif>{{$i}}</option> 
                                         @endfor
                                     </select>
                                     @error('hour')
@@ -93,7 +94,7 @@
                                     <select class="form-control select @error('minute') is-invalid @enderror" name="minute">
                                         
                                         @for($i=0;$i<=60;$i++)
-                                            <option value="{{$i}}">{{$i}}</option> 
+                                            <option value="{{$i}}" @if($time[1] == $i) {{"selected"}} @endif>{{$i}}</option> 
                                         @endfor
                                     </select>
                                     @error('minute')
@@ -108,7 +109,7 @@
                                     <label>Seconds</label>
                                     <select class="form-control select @error('second') is-invalid @enderror" name="second">
                                     @for($i=0;$i<=60;$i++)
-                                            <option value="{{$i}}">{{$i}}</option> 
+                                            <option value="{{$i}}" @if($time[2] == $i) {{"selected"}} @endif>{{$i}}</option> 
                                     @endfor
                                         
                                     </select>

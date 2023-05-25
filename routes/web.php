@@ -68,8 +68,21 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware(['aut
 
     //exam route call
     Route::get('/exam-list','examList')->name('exam-list');
-    Route::get('/add-question','examAdd')->name('add-question');
+    Route::get('/add-exam','examAdd')->name('add-exam');
+    route::post('/store-exam','storeExam')->name('store-exam');
+    Route::get('/edit-exam/{id}', 'editExam')->name('edit-exam');
+    Route::post('/update-exam', 'updateExam')->name('update-exam');
+    //Question
+    Route::get('/question-list/{exam_uuid}','questionList')->name('question-list');
+    Route::get('/add-question','questionAdd')->name('add-question');
     route::post('/store-question','storeQuestion')->name('store-question');
+
+    //levels route call
+    Route::get('/levels','levels')->name('levels');
+    Route::get('/add-level','levelAdd')->name('add-level');
+    route::post('/store-level','storeLevel')->name('store-level');
+    Route::get('/edit-level/{id}', 'editLevel')->name('edit-level');
+    Route::post('/update-level', 'updateLevel')->name('update-level');
 });
 // Route::get('/user/home', [AdminController::class, 'userDashboard'])->name('userdashboard');
 // Route::namespace ('Admin')->controller(AdminController::class)->middleware(['auth','checkBlocked'])->as('admin.')->group(function () {

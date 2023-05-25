@@ -7,7 +7,7 @@
                 <div class="col">
                     <h3 class="page-title">Tag Subjects</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Dashboard</a></li>
                         <li class="breadcrumb-item active">Tag Subjects</li>
                     </ul>
                 </div>
