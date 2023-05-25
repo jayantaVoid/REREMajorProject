@@ -65,7 +65,7 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware(['aut
     Route::get('/edit/teacher/{id}','editTeachersData')->name('edit-teacher');
     Route::get('/block-student/{id}','blockStudent')->name('block-student');
 
-    
+
 
     //exam route call
     Route::get('/exam-list','examList')->name('exam-list');
@@ -84,8 +84,16 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware(['aut
     route::post('/store-level','storeLevel')->name('store-level');
     Route::get('/edit-level/{id}', 'editLevel')->name('edit-level');
     Route::post('/update-level', 'updateLevel')->name('update-level');
+
+    //  //exam route call
+    //  Route::get('/exam-list','examList')->name('exam-list');
+    //  Route::get('/add-exam','examAdd')->name('add-exam');
+    //  Route::post('/store-exam','examStore')->name('store-exam');
+    //  Route::get('/add-question','questionAdd')->name('add-question');
+    //  route::post('/store-question','storeQuestion')->name('store-question');
+    //  Route::get('/question-list','listQuestion')->name('question-list');
+     Route::get('/exam/{uuid}','getExamData')->name('exam');
+     Route::post('/get-exam-answer','getAnswer')->name('get-exam-answer');
+     Route::post('/exam-submit','examSubmit')->name('exam-submit');
 });
-// Route::get('/user/home', [AdminController::class, 'userDashboard'])->name('userdashboard');
-// Route::namespace ('Admin')->controller(AdminController::class)->middleware(['auth','checkBlocked'])->as('admin.')->group(function () {
-//     Route::get('/home', 'studentDashboard')->name('home');
-// });
+

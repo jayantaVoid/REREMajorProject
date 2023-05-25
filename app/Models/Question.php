@@ -22,6 +22,13 @@ class Question extends Model
         return $this->belongsTo(Answer::class,'answer_id');
     }
     public function options(){
-        return $this->hasMany(Answer::class,'question_id');
+    return $this->hasMany(Answer::class, 'question_id');
+}
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class);
+    }
+    public function show_answer(){
+        return $this->hasMany(Answer::class,'question_id','id');
     }
 }
