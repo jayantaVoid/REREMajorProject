@@ -27,6 +27,8 @@
                             @csrf
                             <input type="hidden" name="time" id="get_time">
                             <input type="hidden" name="exam_id" id="" value="{{ $getExamTime[0]->id }}">
+                            <input type="hidden" name="user_id" id="" value="{{ auth()->user()->id }}">
+                            <input type="hidden" name="exam_duration" id="" value="{{ $getExamTime[0]->exam_time }}">
                             @foreach ($getQuestion as $key => $question)
                                 <input type="hidden" name="question_id[]" id="" value="{{ $question->id }}">
                                 <div class="question" id="question{{ $key + 1 }}">

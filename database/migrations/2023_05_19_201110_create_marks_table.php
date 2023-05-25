@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('uuid');
             $table->foreignId('exam_id')->references('id')->on('exam')->onDelete('cascade');
             $table->foreignId('student_id')->references('id')->on('users')->onDelete('cascade');
-            $table->smallInteger('marks')->default(0);
+            $table->float('marks',8,2)->nullable();
             $table->timestamps();
         });
     }
