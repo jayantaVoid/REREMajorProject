@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Auth;
 use Exception;
 use App\Models\Exam;
+use App\Models\Mark;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Level;
@@ -369,7 +370,7 @@ class AdminController extends Controller
             'password' => Hash::make($request->new_password)
         ]);
 
-        return back()->with("status", "Password changed successfully!");
+        return back()->with("success", "Password changed successfully!");
     }
 
 
@@ -527,7 +528,37 @@ class AdminController extends Controller
     }
     public function examSubmit(Request $request)
     {
-        dd($request->all());
+        //return "actual time: ".$request->time." ".$this->toSeconds($request->time)."seconds";
+        //calculate user's completion time percentage.
+            $total_time=$this->toSeconds($request->exam_duration);
+            $remaining_time=$this->toSeconds($request->time);
+            $completion_time_percentage=($remaining_time/$total_time)*100;
+        //calculate user's correct answers percentage.
+            $correctAnswers=0;
+            $i=1;
+            foreach($request->question_id as $question)
+            {
+                $temp=Question::find($question);
+                $var="answers_".(string)$i;
+                $user_ans=$request->$var;
+                if($user_ans == $temp->answer_id)
+                {
+                    $correctAnswers++;
+                }
+
+                $i++;
+            } 
+            $total_question=Question::where('exam_id',$request->exam_id)->count();
+            $correctAnswersPercentage=($correctAnswers/$total_question)*100;
+        //calculate Intelligence Level
+            $intelligenceLevel=($completion_time_percentage+$correctAnswersPercentage)/2;
+        Mark::create([
+            "exam_id" => $request->exam_id,
+            "student_id" => $request->user_id,
+            "marks" => $intelligenceLevel,
+        ]);
+            
+        return redirect()->route("admin.student.exam-list");
     }
     public function email()
     {

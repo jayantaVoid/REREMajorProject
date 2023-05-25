@@ -93,7 +93,7 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware(['aut
     //  route::post('/store-question','storeQuestion')->name('store-question');
     //  Route::get('/question-list','listQuestion')->name('question-list');
      Route::get('/exam/{uuid}','getExamData')->name('exam');
-     Route::post('/get-exam-answer','getAnswer')->name('get-exam-answer');
+    //  Route::post('/get-exam-answer','getAnswer')->name('get-exam-answer');
      Route::post('/exam-submit','examSubmit')->name('exam-submit');
      Route::get('/email','email')->name('email');
 

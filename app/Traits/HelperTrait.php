@@ -19,6 +19,14 @@ trait HelperTrait{
     {
         return md5(microtime().\Config::get('app.key'));
     }
+    public function toSeconds($time)
+    {
+        $timeArr=explode(':',$time);
+        $hour=$timeArr[0]*3600;
+        $minute=$timeArr[1]*60;
+        $second=$timeArr[2];
+        return $hour+$minute+$second;
+    }
 
     
 
