@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 //use Auth;
 use Exception;
-use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Exam;
 use App\Models\Mark;
 use App\Models\Role;
@@ -16,14 +14,17 @@ use App\Models\Profile;
 use App\Models\Subject;
 use App\Models\Question;
 use App\Models\Semester;
+use App\Models\UserRoles;
 use App\Models\Department;
 use App\Traits\HelperTrait;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Builder;
 
 
@@ -31,6 +32,41 @@ use Illuminate\Database\Eloquent\Builder;
 class AdminController extends Controller
 {
     use HelperTrait ;
+    public function registrationForm()
+    {
+        return view('auth.register');
+    }
+    public function registration(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|max:10|min:10',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+        $user=User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+        UserRoles::create([
+            'user_id' => $user->id,
+            'role_id' => 2,
+        ]);
+        $mailable = new Mailable();
+
+            $mailable
+                ->from('PreSkool')
+                ->to($user->email)
+                ->subject('Welcome Notification')
+                ->html("<strong>
+                    Welcome to our E-Learning practice Platform.
+                </strong><br>Best platform to track your progress.<br><b>Let's Start.</b>");
+
+            $result = Mail::send($mailable);
+        return redirect()->route('login');
+    }
     public function index(Request $request)
     {
         if (auth()->user()->hasRole('admin')) {
@@ -52,7 +88,7 @@ class AdminController extends Controller
             {
                 $temp+=$totalMark->marks;
             }
-            $userData['intelligencePercentage']=$temp/$count;
+            $userData['intelligencePercentage']=$temp == 0? 0 : $temp/$count;
             $userData['totalExam']=Exam::count();
             $userData['totalAttendedExam']=$count;
             $userData['totalSubject']=Subject::count();

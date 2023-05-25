@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>MySchool - Login</title>
+    <title>PreSkool - Login</title>
 
     <link rel="shortcut icon" href="assets/img/favicon.png">
 
@@ -50,7 +50,7 @@
                     </div>
                     <div class="login-right">
                         <div class="login-right-wrap">
-                            <h1>Welcome to MySchool</h1>
+                            <h1>Welcome to PreSkool</h1>
                             <p class="account-subtitle">Need an account? <a href="{{ route('register') }}">Sign Up</a>
                             </p>
                             <h2>Sign in</h2>

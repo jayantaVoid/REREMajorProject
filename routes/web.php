@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminController;
 
 
 /*
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/registration', [AdminController::class,'registrationForm'])->name('registration');
+Route::post('/registration', [AdminController::class,'registration'])->name('registration');
+// Route::get('/login', [AdminController::class,'loginForm'])->name('login');
+// Route::post('/login', [AdminController::class,'login'])->name('login');
 Auth::routes(['verify' => true]);
 Route::namespace ('Admin')->controller(AdminController::class)->middleware(['auth','checkBlocked'])->as('admin.')->group(function () {
     Route::get('/home', 'index')->name('home');

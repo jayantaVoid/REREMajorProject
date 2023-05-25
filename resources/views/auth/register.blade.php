@@ -36,7 +36,7 @@
                             <h1>Sign Up</h1>
                             <p class="account-subtitle">Enter details to create your account</p>
 
-                            <form action="{{ route('register') }}" method="POST">
+                            <form action="{{ route('registration') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label>Name <span class="login-danger">*</span></label>
