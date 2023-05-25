@@ -54,6 +54,25 @@ class AdminController extends Controller
             $userData['totalAttendedExam']=$count;
             $userData['totalSubject']=Subject::count();
             $userData['intelligenceLevel']=Level::where('from','<=',$userData['intelligencePercentage'])->where('to','>=',$userData['intelligencePercentage'])->first();
+            $userData['levelAplus']=0;
+            $userData['levelA']=0;
+            $userData['levelB']=0;
+            $temp=Mark::with('exam')->where('student_id',$user->id)->get();
+            foreach($temp as $val)
+            {
+                if($val->exam->level->level == "Level A+")
+                {
+                    $userData['levelAplus']++;
+                }
+                elseif($val->exam->level->level == "Level A")
+                {
+                    $userData['levelA']++;
+                }
+                else
+                {
+                    $userData['levelB']++;
+                }
+            }
             return view('student-dashboard')->with([
                 'userData' => $userData
             ]);
@@ -179,7 +198,7 @@ class AdminController extends Controller
     public function studentExamList()
     {
         $examLists=Exam::all();
-
+        // $examGiven=Exam::where()
         return view('student-exam-list')->with(['examLists'=>$examLists]);
     }
     public function studentList()

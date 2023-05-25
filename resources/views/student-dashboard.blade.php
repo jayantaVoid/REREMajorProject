@@ -113,31 +113,31 @@
                                 <div class="dash-details">
                                     <div class="lesson-activity">
                                         <div class="lesson-imgs">
-                                            <img src="assets/img/icons/lesson-icon-01.svg" alt="">
+                                            <img src="assets/img/icons/lesson-icon-04.svg" alt="">
                                         </div>
                                         <div class="views-lesson">
-                                            <h5>Class</h5>
-                                            <h4>Electrical Engg</h4>
+                                            <h5>Level A+</h5>
+                                            <h4>{{$userData['levelAplus']}}</h4>
                                         </div>
                                     </div>
                                     <div class="lesson-activity">
                                         <div class="lesson-imgs">
-                                            <img src="assets/img/icons/lesson-icon-02.svg" alt="">
+                                            <img src="assets/img/icons/lesson-icon-04.svg" alt="">
                                         </div>
                                         <div class="views-lesson">
-                                            <h5>Lessons</h5>
-                                            <h4>5 Lessons</h4>
+                                            <h5>Level B</h5>
+                                            <h4>{{$userData['levelB']}}</h4>
                                         </div>
                                     </div>
-                                    <div class="lesson-activity">
+                                    <!-- <div class="lesson-activity">
                                         <div class="lesson-imgs">
                                             <img src="assets/img/icons/lesson-icon-03.svg" alt="">
                                         </div>
                                         <div class="views-lesson">
-                                            <h5>Time</h5>
+                                            <h5>Level B</h5>
                                             <h4>Lessons</h4>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3">
@@ -147,11 +147,11 @@
                                             <img src="assets/img/icons/lesson-icon-04.svg" alt="">
                                         </div>
                                         <div class="views-lesson">
-                                            <h5>Asignment</h5>
-                                            <h4>5 Asignment</h4>
+                                            <h5>Level A</h5>
+                                            <h4>{{$userData['levelA']}}</h4>
                                         </div>
                                     </div>
-                                    <div class="lesson-activity">
+                                    <!-- <div class="lesson-activity">
                                         <div class="lesson-imgs">
                                             <img src="assets/img/icons/lesson-icon-05.svg" alt="">
                                         </div>
@@ -168,7 +168,7 @@
                                             <h5>Lesson Learned</h5>
                                             <h4>10/50</h4>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
