@@ -40,7 +40,7 @@
                                     <th>Question</th>
                                     <th>Options</th>
                                     <th>Answer</th>
-                                    <th class="text-end">Action</th>
+                                    <!-- <th class="text-end">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,14 +61,14 @@
                                             <td></td>
                                         @endif
                                         <td>{{$question->answer->option ?? ""}}</td>
-                                        <td class="text-end">
+                                        <!-- <td class="text-end">
                                             <div class="actions">
                                                 
                                                 <a href="#" class="btn btn-sm bg-danger-light">
                                                     <i class="feather-edit"></i>
                                                 </a>
                                             </div>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -40,7 +40,7 @@
                                     <th>Exam Name</th>
                                     <th>Subject Tag</th>
                                     <th>Exam Time</th>
-                                    <th class="text-end">Action</th>
+                                    <th class="text-end"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,14 +54,21 @@
                                         <td>{{$examList->subject->name}}</td>
                                         <td>{{$examList->exam_time}}</td>
                                         <td class="text-end">
-                                            <div class="actions">
-                                                <a href="{{route('admin.exam',['uuid' => $examList->uuid])}}" class="btn btn-sm bg-success-light me-2">
-                                                    <i class="feather-eye"></i>
-                                                </a>
-                                                <a href="{{route('admin.edit-exam',['id' => $examList->uuid])}}" class="btn btn-sm bg-danger-light">
-                                                    <i class="feather-edit"></i>
-                                                </a>
-                                            </div>
+                                            @if(in_array($examList->id,$examGivenIds))
+                                               <strong>Intelligence : </strong> {{number_format($examList->marks[0]->marks,2)}}%
+                                            @else
+                                                <!-- <div class="actions"> -->
+                                                    <a href="{{route('admin.exam',['uuid' => $examList->uuid])}}" class="btn btn-primary bg-white">
+                                                        Start Exam
+                                                    </a>
+                                                    <!-- <a href="{{route('admin.exam',['uuid' => $examList->uuid])}}" class="btn btn-sm bg-success-light me-2">
+                                                        <i class="feather-eye"></i>
+                                                    </a> -->
+                                                    <!-- <a href="{{route('admin.edit-exam',['id' => $examList->uuid])}}" class="btn btn-sm bg-danger-light">
+                                                        <i class="feather-edit"></i>
+                                                    </a> -->
+                                                <!-- </div> -->
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

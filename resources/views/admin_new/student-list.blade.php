@@ -5,11 +5,11 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-sub-header">
-                        <h3 class="page-title">Students</h3>
+                        <h3 class="page-title">Users</h3>
                         <div class="alert alert-success alert-dismissible" role="alert" style="display: none;"></div>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(null)">Student</a></li>
-                            <li class="breadcrumb-item active">All Students</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(null)">User</a></li>
+                            <li class="breadcrumb-item active">All Users</li>
                         </ul>
                     </div>
                 </div>
@@ -28,12 +28,12 @@
             <div class="row">
                 <div class="col-lg-10 col-md-6">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="search" placeholder="Search users here">
+                        <!-- <input type="text" class="form-control" id="search" placeholder="Search users here"> -->
                     </div>
                 </div>
                 <div class="col-lg-1">
                     <div class="search-student-btn">
-                        <button type="btn" class="btn btn-primary" id="searchbtn">Search</button>
+                        <!-- <button type="btn" class="btn btn-primary" id="searchbtn">Search</button> -->
                     </div>
                 </div>
             </div>
@@ -46,15 +46,15 @@
                         <div class="page-header">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="page-title">Students</h3>
+                                    <h3 class="page-title">Users</h3>
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp">
-                                    <a href="students.html" class="btn btn-outline-gray me-2 active"><i
+                                    <!-- <a href="students.html" class="btn btn-outline-gray me-2 active"><i
                                             class="feather-list"></i></a>
                                     <a href="{{ route('admin.showgrid') }}" class="btn btn-outline-gray me-2"><i
                                             class="feather-grid"></i></a>
                                     <a href="{{ route('admin.trash-data') }}" class="btn btn-outline-primary me-2"><i
-                                            class="fas fa-trash"></i></a>
+                                            class="fas fa-trash"></i></a> -->
                                     <a href="{{ route('admin.addstudent') }}" class="btn btn-primary"><i
                                             class="fas fa-plus"></i></a>
                                 </div>
@@ -69,14 +69,9 @@
                                         <th>#</th>
                                         <th style="width: 100px">Name</th>
                                         <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Gender</th>
-                                        <th>Dob</th>
-                                        <th>Blood Group</th>
-                                        <th>Religion</th>
                                         <th>Status</th>
                                         <th>Block/Unblock</th>
-                                        <th class="text-end">Action</th>
+                                        <!-- <th class="text-end">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody id="showdata">
@@ -85,17 +80,10 @@
                                             <tr>
 
                                                 <td>{{ $key + 1 }}</td>
-                                                <td><img class="avatar-img rounded-circle"
-                                                        src="{{ asset('assets/img/' . $student->profile->picture) }}"
-                                                        height="30" width="30">
-                                                    {{ $student->name }}</td>
+                                                
+                                                <td>    {{ $student->name }}</td>
                                                 <td>{{ $student->email }}</td>
                                                 {{-- <td>{{ $student->department->name }}</td> --}}
-                                                <td>{{ $student->profile->phone }}</td>
-                                                <td>{{ $student->profile->gender }}</td>
-                                                <td>{{ $student->profile->dob }}</td>
-                                                <td>{{ $student->profile->blood_group }}</td>
-                                                <td>{{ $student->profile->religion }}</td>
                                                 <td>
                                                     <input type="checkbox" data-id="{{ $student->id }}" name="status"
                                                         class="js-switch" {{ $student->status == 1 ? 'checked' : '' }}>
@@ -111,7 +99,7 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td class="text-end">
+                                                <!-- <td class="text-end">
                                                     <div class="actions ">
                                                         <a href="{{ route('admin.editstudent', ['id' => $student->uuid]) }}"
                                                             class="btn btn-sm bg-danger-light">
@@ -123,7 +111,7 @@
                                                             <i class="feather-trash-2"></i>
                                                         </a>
                                                     </div>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         @endforeach
                                     @else
@@ -162,16 +150,12 @@
                     x = 1;
                     if (data.length) {
                         $.each(data, function(key, value) {
-                            html += '<tr><td><input type="checkbox" id="cb_' + (key + 1) +
-                                '"></td>' +
+                            html += '<tr>' +
                                 '<td>' + [key + 1] + '</td>' +
                                 '<td>' + value.name + '</td>' +
                                 '<td>' + value.email + '</td>' +
-                                '<td>' + value.profile.phone + '</td>' +
-                                '<td>' + value.profile.gender + '</td>' +
-                                '<td>' + value.profile.dob + '</td>' +
-                                '<td>' + value.profile.blood_group + '</td>' +
-                                '<td>' + value.profile.religion + '</td>' +
+                                '<td>' + value.status + '</td>' +
+                                
                                 '<td> <div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id=""></div></td>' +
                                 '<td><div class="actions "><a href="' + editurl + '/' + value
                                 .uuid + '" class="btn btn-sm bg-danger-light">' +

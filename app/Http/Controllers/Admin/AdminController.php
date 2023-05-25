@@ -34,11 +34,14 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         if (auth()->user()->hasRole('admin')) {
-            $totalDepartment = Department::all()->count();
+            $examCount=Exam::count();
+            $subjectCount=Subject::count();
+            $examAttemptCount=Mark::count();
+            $marks=Mark::with('user')->orderBy('marks','DESC')->get();
             $studentUser = User::whereHas('roles', function ($query) {
                 $query->where('role_name', '=', 'student');
             })->get()->count();
-            return view('admin_new.dashboard', compact(['studentUser', 'totalDepartment']));
+            return view('admin_new.dashboard', compact(['studentUser', 'marks', 'examCount', 'subjectCount', 'examAttemptCount']));
         } elseif (auth()->user()->hasRole('student')) {
             $user=Auth::user();
             $userData=[];
@@ -197,9 +200,13 @@ class AdminController extends Controller
     //Students
     public function studentExamList()
     {
-        $examLists=Exam::all();
-        // $examGiven=Exam::where()
-        return view('student-exam-list')->with(['examLists'=>$examLists]);
+        $user=Auth::user();
+        $examLists=Exam::with('marks')->get();
+        $examGivenIds=Mark::where('student_id',$user->id)->pluck('exam_id')->toArray();
+        return view('student-exam-list')->with([
+            'examLists'=>$examLists,
+            'examGivenIds' => $examGivenIds,
+        ]);
     }
     public function studentList()
     {
@@ -367,11 +374,14 @@ class AdminController extends Controller
     {
         $data = $request->search;
         // $results = User::join('profiles','profiles.user_id','=','users.id','left')->where('name', 'like', "%$data%")->get();
-        $results = User::whereHas('profile', function ($query) use ($data) {
-            $query->where('name', 'like', "%$data%");
-        })->WhereHas('roles', function ($query) {
-            $query->where('role_name', 'Student');
-        })->with('profile')->get();
+        $results = User::whereHas('roles', function ($query) {
+            $query->where('role_name', '=', 'student');
+        })->where('name', 'like', "%$data%")->orWhere('email', 'like', "%$data%")->get();
+        // $results = User::whereHas('profile', function ($query) use ($data) {
+        //     $query->where('name', 'like', "%$data%");
+        // })->WhereHas('roles', function ($query) {
+        //     $query->where('role_name', 'Student');
+        // })->with('profile')->get();
         return $results;
     }
     public function trashedData()

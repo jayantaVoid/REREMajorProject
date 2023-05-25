@@ -1,3 +1,3 @@
 <footer>
-    <p>Copyright © 2022 Dreamguys.</p>
+    <p>Copyright © 2023 RERF.</p>
 </footer>

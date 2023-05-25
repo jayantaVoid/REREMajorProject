@@ -25,6 +25,10 @@ class Exam extends Model
     {
         return $this->hasMany(Question::class);
     }
+    public function marks()
+    {
+        return $this->hasMany(Mark::class,'exam_id');
+    }
     public function level()
     {
         return $this->belongsTo(Level::class, 'level_tag');

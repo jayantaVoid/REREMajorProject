@@ -21,4 +21,8 @@ class Mark extends Model
     {
         return $this->belongsTo(Exam::class,'exam_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'student_id');
+    }
 }

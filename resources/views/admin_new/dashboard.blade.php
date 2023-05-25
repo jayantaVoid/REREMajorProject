@@ -37,8 +37,8 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Awards</h6>
-                                <h3>50+</h3>
+                                <h6>Exams</h6>
+                                <h3>{{$examCount}}</h3>
                             </div>
                             <div class="db-icon">
                                 <img src="assets/img/icons/dash-icon-02.svg" alt="Dashboard Icon">
@@ -52,11 +52,11 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Department</h6>
-                                <h3>{{ $totalDepartment }}</h3>
+                                <h6>Subjects</h6>
+                                <h3>{{$subjectCount}}</h3>
                             </div>
                             <div class="db-icon">
-                                <img src="assets/img/icons/dash-icon-03.svg" alt="Dashboard Icon">
+                                <img src="assets/img/icons/dash-icon-02.svg" alt="Dashboard Icon">
                             </div>
                         </div>
                     </div>
@@ -67,11 +67,11 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Revenue</h6>
-                                <h3>$505</h3>
+                                <h6>Exam Attempted </h6>
+                                <h3>{{$examAttemptCount}}</h3>
                             </div>
                             <div class="db-icon">
-                                <img src="assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon">
+                                <img src="assets/img/icons/dash-icon-01.svg" alt="Dashboard Icon">
                             </div>
                         </div>
                     </div>
@@ -83,93 +83,45 @@
 
                 <div class="card flex-fill student-space comman-shadow">
                     <div class="card-header d-flex align-items-center">
-                        <h5 class="card-title">Star Students</h5>
-                        <ul class="chart-list-out student-ellips">
+                        <h5 class="card-title">Star Performances</h5>
+                        <!-- <ul class="chart-list-out student-ellips">
                             <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table star-student table-hover table-center table-borderless table-striped">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>ID</th>
+                                        <th>Email</th>
                                         <th>Name</th>
-                                        <th class="text-center">Marks</th>
+                                        <th class="text-center">Exam</th>
                                         <th class="text-center">Percentage</th>
-                                        <th class="text-end">Year</th>
+                                        <th class="text-end">Level</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE2209</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg"
-                                                    width="25" alt="Star Students">
-                                                John Smith
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1185</td>
-                                        <td class="text-center">98%</td>
-                                        <td class="text-end">
-                                            <div>2019</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE1625</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-03.jpg"
-                                                    width="25" alt="Star Students">
-                                                Pennington Joy
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1196</td>
-                                        <td class="text-center">99.6%</td>
-                                        <td class="text-end">
-                                            <div>2017</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE2516</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-04.jpg"
-                                                    width="25" alt="Star Students">
-                                                Millie Marsden
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1187</td>
-                                        <td class="text-center">98.2%</td>
-                                        <td class="text-end">
-                                            <div>2016</div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <div>PRE2209</div>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <a href="profile.html">
-                                                <img class="rounded-circle" src="assets/img/profiles/avatar-05.jpg"
-                                                    width="25" alt="Star Students">
-                                                John Smith
-                                            </a>
-                                        </td>
-                                        <td class="text-center">1185</td>
-                                        <td class="text-center">98%</td>
-                                        <td class="text-end">
-                                            <div>2015</div>
-                                        </td>
-                                    </tr>
+                                    @foreach($marks as $mark)
+                                        <tr>
+                                            <td class="text-nowrap">
+                                                <div>{{$mark->user->email}}</div>
+                                            </td>
+                                            <td class="text-nowrap">
+                                                <!-- <a href="profile.html">
+                                                    <img class="rounded-circle" src="assets/img/profiles/avatar-02.jpg"
+                                                        width="25" alt="Star Students">
+                                                    John Smith
+                                                </a> -->
+                                                {{$mark->user->name}}
+                                            </td>
+                                            <td class="text-center">{{$mark->exam->name}}</td>
+                                            <td class="text-center">{{number_format($mark->marks,2)}}%</td>
+                                            <td class="text-end">
+                                                <div>{{$mark->exam->level->level}}</div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
