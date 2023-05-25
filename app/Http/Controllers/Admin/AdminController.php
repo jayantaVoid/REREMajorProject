@@ -144,7 +144,7 @@ class AdminController extends Controller
             ],
             [
                 'to.gt' => "Feild To must be greater than From Feild"
-            ]   
+            ]
         );
         $level=Level::where('uuid',$request->uuid)->first();
         $level->update([
@@ -159,6 +159,7 @@ class AdminController extends Controller
     public function studentExamList()
     {
         $examLists=Exam::all();
+
         return view('student-exam-list')->with(['examLists'=>$examLists]);
     }
     public function studentList()
@@ -372,9 +373,9 @@ class AdminController extends Controller
     }
 
 
-    
-    
-    
+
+
+
     public function isGeneral($id)
     {
         $teacher = User::where('uuid', $id)->first();
@@ -403,7 +404,7 @@ class AdminController extends Controller
             'message' => 'Teacher Status Updated !!'
         ]);
     }
-    
+
     public function examList()
     {
         $examLists=Exam::all();
@@ -507,5 +508,15 @@ class AdminController extends Controller
             'answer_id'=>$answerIds[$request->answer]->id
         ]);
         return redirect('exam-list')->with('status','Question Added Successfully');
+    }
+    public function getExamData(Request $request,$uuid)
+    {
+        $getExamTime = Exam::where('uuid',$uuid)->get();
+        $getQuestion = Question::with('show_answer')->where('exam_id',$getExamTime[0]->id)->inRandomOrder()->get();
+        return view('admin_new.student.exam',compact('getQuestion','getExamTime'));
+    }
+    public function examSubmit(Request $request)
+    {
+        dd($request->all());
     }
 }
