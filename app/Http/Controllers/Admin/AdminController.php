@@ -529,4 +529,8 @@ class AdminController extends Controller
     {
         dd($request->all());
     }
+    public function email()
+    {
+        return view('admin_new.email.mail');
+    }
 }

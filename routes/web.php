@@ -95,5 +95,7 @@ Route::namespace ('Admin')->controller(AdminController::class)->middleware(['aut
      Route::get('/exam/{uuid}','getExamData')->name('exam');
      Route::post('/get-exam-answer','getAnswer')->name('get-exam-answer');
      Route::post('/exam-submit','examSubmit')->name('exam-submit');
+     Route::get('/email','email')->name('email');
+
 });
 
