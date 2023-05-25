@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Auth;
+//use Auth;
 use Exception;
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Exam;
 use App\Models\Mark;
 use App\Models\Role;
@@ -21,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
 
@@ -37,7 +40,23 @@ class AdminController extends Controller
             })->get()->count();
             return view('admin_new.dashboard', compact(['studentUser', 'totalDepartment']));
         } elseif (auth()->user()->hasRole('student')) {
-            return view('student-dashboard');
+            $user=Auth::user();
+            $userData=[];
+            $temp=0;
+            $totalMarks=Mark::where('student_id',$user->id)->get();
+            $count=count($totalMarks);
+            foreach($totalMarks as $totalMark)
+            {
+                $temp+=$totalMark->marks;
+            }
+            $userData['intelligencePercentage']=$temp/$count;
+            $userData['totalExam']=Exam::count();
+            $userData['totalAttendedExam']=$count;
+            $userData['totalSubject']=Subject::count();
+            $userData['intelligenceLevel']=Level::where('from','<=',$userData['intelligencePercentage'])->where('to','>=',$userData['intelligencePercentage'])->first();
+            return view('student-dashboard')->with([
+                'userData' => $userData
+            ]);
         } else {
             return view('admin_new.teacher-dashboard');
         }
@@ -562,6 +581,21 @@ class AdminController extends Controller
     }
     public function email()
     {
+        // Mail::send('mail', ["Jayanta"], function($message) {
+        //     $message->to('j.mondal1009@gmail.com', 'Tutorials Point')->subject
+        //        ('Laravel HTML Testing Mail');
+        //     $message->from('presckol@gmail.com','Jayanta');
+        //  });
+         $mailable = new Mailable();
+
+            $mailable
+                ->from('j.mondal1009@gmail.com')
+                ->to('j.mondal1009@gmail.com')
+                ->subject('test subject')
+                ->html(view('admin_new.email.mail'));
+
+            $result = Mail::send($mailable);
+         return "HTML Email Sent. Check your inbox.";
         return view('admin_new.email.mail');
     }
 }

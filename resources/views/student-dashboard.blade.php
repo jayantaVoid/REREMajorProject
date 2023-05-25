@@ -23,8 +23,8 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>All Courses</h6>
-                                <h3>04/06</h3>
+                                <h6>Exam Attended</h6>
+                                <h3>{{$userData['totalAttendedExam']}}</h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{ asset('assets/img/icons/teacher-icon-01.svg') }}" alt="Dashboard Icon">
@@ -38,8 +38,8 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>All Projects</h6>
-                                <h3>40/60</h3>
+                                <h6>Total Exams</h6>
+                                <h3>{{$userData['totalExam']}}</h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{ asset('assets/img/icons/teacher-icon-02.svg') }}" alt="Dashboard Icon">
@@ -53,8 +53,8 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Test Attended</h6>
-                                <h3>30/50</h3>
+                                <h6>Subject Available</h6>
+                                <h3>{{$userData['totalSubject']}}</h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{ asset('assets/img/icons/teacher-icon-01.svg') }}" alt="Dashboard Icon">
@@ -68,8 +68,8 @@
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Test Passed</h6>
-                                <h3>15/20</h3>
+                                <h6>Intelligence</h6>
+                                <h3>{{$userData['intelligenceLevel']->level}}</h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{ asset('assets/img/icons/teacher-icon-02.svg') }}" alt="Dashboard Icon">
@@ -87,16 +87,16 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-6">
-                                <h5 class="card-title">Today’s Lesson</h5>
+                                <h5 class="card-title">Intellegence Level</h5>
                             </div>
-                            <div class="col-6">
+                            <!-- <div class="col-6">
                                 <ul class="chart-list-out">
                                     <li><span class="circle-blue"></span><span class="circle-gray"></span><span
                                             class="circle-gray"></span></li>
                                     <li class="lesson-view-all"><a href="#">View All</a></li>
                                     <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="dash-circle">
@@ -105,7 +105,7 @@
                                 <div class="circle-bar circle-bar2">
                                     <div class="circle-graph2" data-percent="80">
                                         <canvas width="400" height="400"></canvas>
-                                        <b>80%</b>
+                                        <b>{{number_format($userData['intelligencePercentage'],2)}}%</b>
                                     </div>
                                 </div>
                             </div>
@@ -173,8 +173,12 @@
                             </div>
                             <div class="col-lg-3 col-md-3 d-flex align-items-center justify-content-center">
                                 <div class="skip-group">
-                                    <button type="submit" class="btn btn-info skip-btn">skip</button>
-                                    <button type="submit" class="btn btn-info continue-btn">Continue</button>
+                                    <a href="{{route('admin.profile', ['id' => auth()->user()->uuid])}}">
+                                        <button type="submit" class="btn btn-info skip-btn">Profile</button>
+                                    </a>
+                                    <a href="{{route('admin.student.exam-list')}}">
+                                        <button type="submit" class="btn btn-info continue-btn">Continue</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
