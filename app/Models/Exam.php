@@ -21,4 +21,8 @@ class Exam extends Model
     {
         return $this->belongsTo(Subject::class,'subject_tag');
     }
+    public function level()
+    {
+        return $this->belongsTo(Level::class,'level_tag');
+    }
 }
