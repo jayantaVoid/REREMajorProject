@@ -40,6 +40,7 @@
                                     <th>Exam Name</th>
                                     <th>Subject Tag</th>
                                     <th>Exam Time</th>
+                                    <th></th>
                                     <th class="text-end">Action</th>
                                 </tr>
                             </thead>
@@ -53,6 +54,11 @@
                                         </td>
                                         <td>{{$examList->subject->name}}</td>
                                         <td>{{$examList->exam_time}}</td>
+                                        <td>
+                                            <span class="fs-6 @if($loop->index == 0) badge bg-success @elseif($loop->index == 1) badge bg-info @else badge bg-warning  @endif">
+                                                {{$examList->level->level ?? ""}}
+                                            </span>
+                                        </td>
                                         <td class="text-end">
                                             <div class="actions">
                                                 <a href="{{route('admin.question-list',['exam_uuid' => $examList->uuid])}}" class="btn btn-sm bg-success-light me-2">

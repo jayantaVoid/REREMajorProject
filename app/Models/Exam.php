@@ -21,8 +21,14 @@ class Exam extends Model
     {
         return $this->belongsTo(Subject::class,'subject_tag');
     }
+<<<<<<< HEAD
     public function question()
     {
         return $this->hasMany(Question::class);
+=======
+    public function level()
+    {
+        return $this->belongsTo(Level::class,'level_tag');
+>>>>>>> 284e878198755ecfd3b868a94b7bd491c9a08258
     }
 }

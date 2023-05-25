@@ -27,20 +27,37 @@
                                     <h5 class="form-title"><span>Exam Information</span></h5>
                                 </div>
                                 <div class="row2">
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Select Subject Tag</label>
-                                        <select class="form-control select @error('subject_tag') is-invalid @enderror" name="subject_tag">
-                                            <option value="">Choose Subject Tag</option>
-                                            @foreach($subjectTags as $subjectTag)
-                                                <option value="{{$subjectTag->id}}">{{$subjectTag->name}}</option> 
-                                            @endforeach
-                                        </select>
-                                        @error('subject_tag')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label>Select Subject Tag</label>
+                                            <select class="form-control select @error('subject_tag') is-invalid @enderror" name="subject_tag">
+                                                <option value="">Choose Subject Tag</option>
+                                                @foreach($subjectTags as $subjectTag)
+                                                    <option value="{{$subjectTag->id}}">{{$subjectTag->name}}</option> 
+                                                @endforeach
+                                            </select>
+                                            @error('subject_tag')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label>Select Level Tag</label>
+                                            <select class="form-control select @error('level_tag') is-invalid @enderror" name="level_tag">
+                                                <option value="">Choose Level Tag</option>
+                                                @foreach($levelTags as $levelTag)
+                                                    <option value="{{$levelTag->id}}">{{$levelTag->level}}</option> 
+                                                @endforeach
+                                            </select>
+                                            @error('level_tag')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>

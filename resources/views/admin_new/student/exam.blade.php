@@ -122,12 +122,11 @@
             var seconds = 60
             var stop_timer = setInterval(() => {
                 if(hours == 0 && minutes == 0 && seconds == 0){
-                    $('#get_time').val(hours+' : '+minutes+' : '+seconds)
+                    $('#get_time').val(hours+':'+minutes+':'+seconds)
                     clearInterval(stop_timer)
                     $('#exam_form').submit();
 
                 }
-                console.log(hours+' : '+minutes+' : '+seconds);
                 if (seconds == 0 || seconds == 60) {
                     minutes--
                     seconds = 59

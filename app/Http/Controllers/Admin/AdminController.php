@@ -413,11 +413,16 @@ class AdminController extends Controller
     public function examAdd()
     {
         $subjectTags=Subject::all();
-        return view('admin_new.add-exam')->with(['subjectTags'=>$subjectTags]);
+        $levelTags=Level::orderBy('to','DESC')->get();
+        return view('admin_new.add-exam')->with([
+            'subjectTags'=>$subjectTags,
+            'levelTags'=>$levelTags,
+        ]);
     }
     public function storeExam(Request $request){
         $request->validate([
                 'subject_tag' => 'required',
+                'level_tag' => 'required',
                 'name' => 'required',
                 'hour' => 'required',
                 'minute' => 'required',
@@ -426,6 +431,7 @@ class AdminController extends Controller
         );
         $exam=Exam::create([
             'subject_tag' => $request->subject_tag,
+            'level_tag' => $request->level_tag,
             'name' => $request->name,
             'exam_time' => $request->hour.':'.$request->minute.':'.$request->second,
         ]);
@@ -435,12 +441,14 @@ class AdminController extends Controller
     {
         $exam = Exam::where('uuid',$uuid)->first();
         $subjectTags=Subject::all();
+        $levelTags=Level::orderBy('to','DESC')->get();
         $time=explode(":",$exam->exam_time);
         //return $time[0] == 0;
         return view('admin_new.edit-exam')->with([
             'exam'=>$exam,
             'subjectTags'=>$subjectTags,
             'time' => $time,
+            'levelTags'=>$levelTags,
 
         ]);
     }
@@ -448,6 +456,7 @@ class AdminController extends Controller
     {
         $request->validate([
                 'subject_tag' => 'required',
+                'level_tag' => 'required',
                 'name' => 'required',
                 'hour' => 'required',
                 'minute' => 'required',
@@ -457,6 +466,7 @@ class AdminController extends Controller
         $exam=Exam::where('uuid',$request->uuid)->first();
         $exam->update([
             'subject_tag' => $request->subject_tag,
+            'level_tag' => $request->level_tag,
             'name' => $request->name,
             'exam_time' => $request->hour.':'.$request->minute.':'.$request->second,
         ]);
