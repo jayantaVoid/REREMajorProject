@@ -23,6 +23,7 @@ Auth::routes(['verify' => true]);
 Route::namespace ('Admin')->controller(AdminController::class)->middleware(['auth','checkBlocked'])->as('admin.')->group(function () {
     Route::get('/home', 'index')->name('home');
     Route::get('/students', 'studentList')->name('student');
+    Route::get('/student/exam-list', 'studentExamList')->name('student.exam-list');
     Route::get('/add-student', 'addStudent')->name('addstudent');
     Route::post('/storestudent', 'storeStudent')->name('storestudent');
     Route::get('/grid', 'showGrid')->name('showgrid');

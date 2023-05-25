@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('name')->nullable();
-            $table->foreignId('subject_tag')->references('id')->on('subjects')->onDelete('cascade');;
+            $table->foreignId('subject_tag')->references('id')->on('subjects')->onDelete('cascade');
             $table->time('exam_time')->nullable();
+            $table->foreignId('level_tag')->references('id')->on('levels')->onDelete('cascade');
             $table->timestamps();
         });
     }

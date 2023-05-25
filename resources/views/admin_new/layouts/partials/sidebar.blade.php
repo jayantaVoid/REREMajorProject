@@ -149,13 +149,23 @@
                         </ul>
                     </li> --}}
                 @elseif (auth()->user()->roles()->first()->role_name == 'Student')
-                    <li class="submenu active">
+                    <li class="submenu {{ request()->routeIs('admin.home') ? 'active' : '' }}">
                         <a href="#"><i class="feather-grid"></i> <span> Dashboard</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="{{ route('admin.home') }}"
                                     class="{{ request()->routeIs('admin.home') ? 'active' : '' }}">Student
                                     Dashboard</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- exam -->
+                    <li class="submenu {{ request()->routeIs('admin.student.exam-list') ? 'active' : '' }}">
+                        <a href="#"><i class="fas fa-clipboard-list"></i> <span> Exam</span> <span
+                            class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{{ route('admin.student.exam-list') }}"
+                                class="{{ request()->routeIs('admin.student.exam-list') ? 'active' : '' }}"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a>
                             </li>
                         </ul>
                     </li>

@@ -156,6 +156,11 @@ class AdminController extends Controller
     }
 
     //Students
+    public function studentExamList()
+    {
+        $examLists=Exam::all();
+        return view('student-exam-list')->with(['examLists'=>$examLists]);
+    }
     public function studentList()
     {
         $students = User::whereHas('roles', function ($query) {
